@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: botc
+      POSTGRES_PASSWORD: botc
+      POSTGRES_DB: botc_host_toll
+    ports:
+      - '5432:5432'
+    volumes:
+      - botc_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  botc_postgres_data:

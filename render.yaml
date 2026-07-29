@@ -1,0 +1,69 @@
+# Render Blueprint — deploys the server (Node/Express/Socket.io) as a free
+# web service and the client (Vite build) as a free static site, from this
+# one monorepo. See README.md "Deploying" section for the full walkthrough
+# (Neon database setup, first-deploy steps, what to do if these two service
+# names are already taken and Render assigns different URLs).
+#
+# Free-tier notes:
+#   - The web service (server) spins down after ~15 min of inactivity and
+#     takes ~30-60s to wake up on the next request — expected and fine here,
+#     since the app already rehydrates in-memory state from Postgres on
+#     reconnect (see server/src/state/gameStore.ts) for exactly this reason.
+#   - The static site (client) never spins down — static hosting has no
+#     "cold start."
+#   - Postgres itself is NOT defined here — Render's own free Postgres tier
+#     auto-deletes after 30 days, which defeats "friends can use it whenever
+#     long-term." Use Neon's free tier instead (no expiration) and paste its
+#     connection strings in when prompted during blueprint creation.
+#   - PDF export (server/src/services/pdf.ts) launches headless Chromium via
+#     Playwright, which needs a real browser binary + system libraries —
+#     `playwright install --with-deps` below is a best-effort install of
+#     both on Render's native Node build image. Everything else in the app
+#     (hosting, roles, roster, ring, seating, night order, phantom-player
+#     conversion) is fully independent of this and unaffected either way —
+#     if PDF export doesn't work after deploying, it's an isolated feature
+#     to debug/fix later, not a sign anything else is broken.
+
+services:
+  - type: web
+    name: botc-host-toll-server
+    runtime: node
+    plan: free
+    buildCommand: npm install && npx playwright install --with-deps chromium && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
+    startCommand: npm run start -w server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Pasted in during blueprint creation from your Neon project's
+      # connection details (pooled connection — the "-pooler" one).
+      - key: DATABASE_URL
+        sync: false
+      # Neon's *direct* (non-pooled) connection string — required by
+      # `prisma migrate deploy` specifically, not used at runtime otherwise.
+      - key: DIRECT_URL
+        sync: false
+      # Must match the client's deployed URL exactly (CORS + Socket.io both
+      # check this). If Render assigns the client a different URL than
+      # expected below (e.g. this exact name was already taken), update
+      # this value to match after first deploy.
+      - key: CLIENT_ORIGIN
+        value: https://botc-host-toll-client.onrender.com
+
+  - type: web
+    name: botc-host-toll-client
+    runtime: static
+    buildCommand: npm install && npm run build -w client
+    staticPublishPath: client/dist
+    envVars:
+      # Baked into the client bundle at build time (Vite inlines VITE_*
+      # vars) — must match the server's deployed URL exactly. Same caveat
+      # as CLIENT_ORIGIN above if the name below ends up taken.
+      - key: VITE_SERVER_URL
+        value: https://botc-host-toll-server.onrender.com
+    routes:
+      # SPA fallback: this is a client-side-routed React app (react-router),
+      # so any deep link or page refresh on a non-root path (e.g. /host/abc)
+      # must still serve index.html rather than 404ing.
+      - type: rewrite
+        source: /*
+        destination: /index.html

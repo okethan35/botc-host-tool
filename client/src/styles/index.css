@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Values are space-separated RGB channels (not hex) so Tailwind's
+     color-opacity modifiers (e.g. text-ink/60) can compose them via
+     rgb(var(--x) / <alpha-value>) — see tailwind.config.ts. A plain hex
+     string in a CSS variable can't be combined with an opacity modifier;
+     Tailwind silently fails to generate those utilities at all. */
+  --color-good: 37 99 235; /* #2563eb blue */
+  --color-evil: 220 38 38; /* #dc2626 red */
+  --color-neutral: 124 58 237; /* #7c3aed purple */
+
+  /* Cream parchment surfaces (content) + sepia ink text — kept light and
+     desaturated so text stays legible; not the site's dominant color. */
+  --color-paper: 244 236 216; /* #f4ecd8 */
+  --color-paper-panel: 236 224 196; /* #ece0c4 */
+  --color-paper-deep: 221 204 160; /* #ddcca0 */
+  --color-ink: 43 32 19; /* #2b2013 */
+  --color-cream: 247 241 227; /* #f7f1e3 */
+
+  /* Deep royal-violet chrome (header, nav, layout shell) — the site's actual
+     anchor color, per bloodontheclocktower.com's own dominant palette. */
+  --color-chrome: 42 28 63; /* #2a1c3f */
+  --color-chrome-deep: 28 18 44; /* #1c122c */
+
+  /* Old-gold accent for buttons/dividers/highlights. */
+  --color-gold: 171 125 51; /* #ab7d33 */
+  --color-gold-light: 212 175 106; /* #d4af6a */
+}
+
+body {
+  @apply bg-paper font-serif text-ink antialiased;
+  /* Aged/foxed paper: soft water-ring stains, dirt blotches, and small
+     foxing spots. Lives on the page background only — actual content sits
+     on top of solid-ish card panels, so this can be pushed further than a
+     texture directly behind text would tolerate. */
+  background-image:
+    radial-gradient(circle at 88% 6%, transparent 0%, rgba(120, 98, 58, 0.11) 34%, rgba(120, 98, 58, 0.15) 44%, transparent 56%),
+    radial-gradient(circle at 5% 80%, transparent 0%, rgba(110, 88, 52, 0.1) 28%, rgba(110, 88, 52, 0.14) 38%, transparent 50%),
+    radial-gradient(circle at 55% 96%, transparent 0%, rgba(110, 88, 52, 0.08) 20%, rgba(110, 88, 52, 0.11) 28%, transparent 38%),
+    radial-gradient(ellipse 38% 28% at 18% 42%, rgba(101, 72, 35, 0.1), transparent 70%),
+    radial-gradient(ellipse 32% 24% at 84% 58%, rgba(101, 72, 35, 0.09), transparent 70%),
+    radial-gradient(ellipse 26% 20% at 40% 88%, rgba(101, 72, 35, 0.08), transparent 70%),
+    radial-gradient(circle 3px at 35% 14%, rgba(120, 70, 30, 0.22), transparent 100%),
+    radial-gradient(circle 4px at 68% 22%, rgba(120, 70, 30, 0.18), transparent 100%),
+    radial-gradient(circle 2.5px at 50% 65%, rgba(120, 70, 30, 0.2), transparent 100%),
+    radial-gradient(circle 3px at 13% 58%, rgba(120, 70, 30, 0.18), transparent 100%),
+    radial-gradient(circle 3.5px at 92% 80%, rgba(120, 70, 30, 0.2), transparent 100%),
+    radial-gradient(circle 2px at 60% 40%, rgba(120, 70, 30, 0.16), transparent 100%),
+    radial-gradient(ellipse 90% 70% at 50% 50%, transparent 60%, rgba(80, 60, 30, 0.09) 100%);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3 {
+  @apply font-display tracking-wide;
+}

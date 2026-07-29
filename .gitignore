@@ -1,0 +1,22 @@
+node_modules/
+dist/
+build/
+.env
+*.log
+npm-debug.log*
+
+# Prisma
+server/prisma/dev.db*
+server/generated/
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Local AI-assistant tooling config — never committed
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

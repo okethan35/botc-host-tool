@@ -1,0 +1,119 @@
+// Blood on the Clocktower Host Companion — Prisma schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // DATABASE_URL: pooled connection, used by the running app (many short-
+  // lived queries — this is what the pooler is for).
+  // DIRECT_URL: unpooled connection, required by `prisma migrate` itself.
+  // Locally with a native/Docker Postgres these are typically the same
+  // value; hosted providers like Neon give you two different connection
+  // strings, so both need to be defined even though only DIRECT_URL is
+  // unused outside of running migrations.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum GamePhase {
+  lobby
+  night
+  day
+}
+
+enum Team {
+  townsfolk
+  outsider
+  minion
+  demon
+}
+
+enum Alignment {
+  good
+  evil
+}
+
+/// A script (e.g. Trouble Brewing) is a real table, not an enum, so future
+/// scripts are just new rows + new Role rows referencing them.
+model Script {
+  id    String @id
+  name  String
+
+  games Game[]
+  roles Role[]
+}
+
+model Game {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  /// Opaque secret issued once at creation; decouples host authority from
+  /// occupying a seat (the host may not be a Player at all).
+  hostToken   String    @unique
+  scriptId    String
+  script      Script    @relation(fields: [scriptId], references: [id])
+  phase       GamePhase @default(lobby)
+  nightNumber Int       @default(0)
+  createdAt   DateTime  @default(now())
+
+  players            Player[]
+  nightOrderProgress NightOrderProgress[]
+}
+
+model Player {
+  id            String     @id @default(cuid())
+  gameId        String
+  game          Game       @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  displayName   String
+  /// false = host-added phantom player, no socket ever attached.
+  hasDevice     Boolean    @default(true)
+  socketId      String?
+  /// Opaque per-player secret for reconnect. Unique so a phantom-to-real
+  /// conversion can issue a fresh one that invalidates the old value.
+  sessionToken  String     @unique
+  /// No DB-level unique constraint on (gameId, seatPosition) — seats:reorder
+  /// rewrites all positions in one transaction, so validity is enforced by
+  /// construction rather than a constraint.
+  seatPosition  Int
+  roleId        String?
+  role          Role?      @relation(fields: [roleId], references: [id])
+  alignment     Alignment?
+  alive         Boolean    @default(true)
+  hostNotes     String     @default("")
+  isHost        Boolean    @default(false)
+  createdAt     DateTime   @default(now())
+}
+
+model Role {
+  id               String  @id @default(cuid())
+  scriptId         String
+  script           Script  @relation(fields: [scriptId], references: [id])
+  name             String
+  team             Team
+  abilityText      String
+  faqText          String
+  firstNightOrder  Int?
+  otherNightOrder  Int?
+  reminderText     String
+  /// Nullable JSON, typed in shared/src/types/role.ts as SetupEffect (a
+  /// discriminated union) — Prisma Json has no native union support.
+  setupEffect      Json?
+
+  players            Player[]
+  nightOrderProgress NightOrderProgress[]
+
+  @@unique([scriptId, name])
+}
+
+/// Tracks night-order checklist completion; reset each phase change into night.
+model NightOrderProgress {
+  gameId      String
+  game        Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  nightNumber Int
+  roleId      String
+  role        Role    @relation(fields: [roleId], references: [id])
+  checked     Boolean @default(false)
+
+  @@unique([gameId, nightNumber, roleId])
+}
