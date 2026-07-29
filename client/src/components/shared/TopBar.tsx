@@ -1,5 +1,5 @@
 /**
- * Persistent purple masthead — the "general app chrome / layout shell" the
+ * Persistent purple masthead - the "general app chrome / layout shell" the
  * product spec calls out as purple. Page-specific headers (game code, phase,
  * etc.) still live inside each route's own content area below this.
  */
@@ -14,7 +14,7 @@ export function TopBar() {
           Blood on the Clocktower
         </span>
         <span className="hidden text-xs uppercase tracking-widest text-cream/60 sm:inline">
-          — Host Companion
+          - Host Companion
         </span>
       </div>
     </header>

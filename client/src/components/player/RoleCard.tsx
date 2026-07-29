@@ -9,7 +9,7 @@ interface RoleCardProps {
 
 /**
  * Shows the player's own role, current alignment, and paraphrased
- * ability/FAQ text only — never anyone else's. Alignment is the player's
+ * ability/FAQ text only - never anyone else's. Alignment is the player's
  * own current `alignment` (via ColorBadge, the only alignment->color
  * mapper), not derived from the role's default team.
  */

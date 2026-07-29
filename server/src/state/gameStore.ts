@@ -3,7 +3,7 @@ import type { Role, SetupEffect } from 'shared';
 import { prisma } from '../db/prisma';
 import type { RuntimeGame, RuntimePlayer, RuntimeState } from './types';
 
-/** In-memory Map<gameId, RuntimeState> — the single source of truth while the process is up. */
+/** In-memory Map<gameId, RuntimeState> - the single source of truth while the process is up. */
 const store = new Map<string, RuntimeState>();
 
 function toRuntimeGame(game: PrismaGame): RuntimeGame {

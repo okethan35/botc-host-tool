@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // rgb(var(--x) / <alpha-value>) — NOT a plain var() reference — is
+        // rgb(var(--x) / <alpha-value>) - NOT a plain var() reference - is
         // required for Tailwind's opacity modifiers (e.g. text-ink/60) to
         // work at all; the CSS variables hold space-separated RGB channels
         // to match. See src/styles/index.css for the values.
@@ -15,7 +15,7 @@ export default {
         // Aged-paper + royal-purple theme, inspired by bloodontheclocktower.com's
         // deep violet chrome against cream parchment content, with gold accents.
         // Alignment badges keep the good/evil/neutral blue/red/purple accents
-        // above untouched — this palette is only for general site chrome/surfaces.
+        // above untouched - this palette is only for general site chrome/surfaces.
         paper: {
           DEFAULT: 'rgb(var(--color-paper) / <alpha-value>)',
           panel: 'rgb(var(--color-paper-panel) / <alpha-value>)',

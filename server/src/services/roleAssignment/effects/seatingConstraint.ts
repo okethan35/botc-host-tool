@@ -4,7 +4,7 @@ import type { RuntimeState } from '../../../state/types';
 
 /**
  * Re-run after every `seats:reorder` (see socket/handlers/seats.ts) for any
- * in-play role carrying a `seatingConstraint` setup effect. Non-blocking —
+ * in-play role carrying a `seatingConstraint` setup effect. Non-blocking -
  * returns warnings, never repositions players automatically. No Trouble
  * Brewing role uses this in v1; the rule names below (`adjacentToDemon`,
  * `evilContiguousCentered`) are documented conventions for future scripts
@@ -30,13 +30,13 @@ export function checkSeatingConstraints(state: RuntimeState): SeatingWarningItem
           warnings.push({
             roleId: role.id,
             roleName: role.name,
-            message: `${role.name} must be seated next to the Demon — currently not adjacent.`,
+            message: `${role.name} must be seated next to the Demon - currently not adjacent.`,
           });
         }
       }
     } else if (rule === 'evilContiguousCentered') {
       // Placeholder for future scripts requiring evil to sit in a contiguous
-      // block centered on the demon — not needed by any TB role.
+      // block centered on the demon - not needed by any TB role.
     }
   }
 

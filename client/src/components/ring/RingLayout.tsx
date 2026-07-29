@@ -19,7 +19,7 @@ const MIN_RADIUS = 150;
 /**
  * Pure/presentational ring layout: positions seats in a circle via
  * shared/src/ring-geometry.ts (seat 0 at top, clockwise). Used by the live
- * grimoire's Ring tab and the seat-order editor's live preview — only
+ * grimoire's Ring tab and the seat-order editor's live preview - only
  * `renderSeat` differs between them. The server-generated PDF renders its
  * own ring independently (see server/src/services/pdf.ts) since it isn't
  * React, but shares this same `polarToCartesian` geometry function.
@@ -27,13 +27,13 @@ const MIN_RADIUS = 150;
  * Radius grows with seat count (rather than a fixed size) so large tables
  * (12+ players) get more circumference instead of cramming seats together.
  *
- * Seats are keyed by player `id`, not `seatPosition` — keying by position
+ * Seats are keyed by player `id`, not `seatPosition` - keying by position
  * would make React reuse a slot's DOM node for whichever player now sits
  * there instead of moving that player's own node, which both breaks the
  * "this player's tile flies to its new spot" animation and is the wrong
  * mental model (the player moved, the slot didn't). The `transform`
  * transition below is what actually produces that flying motion whenever a
- * seat's computed position changes for any reason — reorder via drag,
+ * seat's computed position changes for any reason - reorder via drag,
  * reorder via the seating tab's arrow buttons, or a role/roster update.
  */
 export function RingLayout<T extends RingSeat>({
@@ -50,7 +50,7 @@ export function RingLayout<T extends RingSeat>({
   // seat order. If it did, React would physically move nodes in the DOM
   // every time seats reorder, and that move landing in the same commit as
   // the transform change is enough to make some browsers skip the CSS
-  // transition instead of animating it — sorting by id keeps DOM order
+  // transition instead of animating it - sorting by id keeps DOM order
   // stable so only `transform` ever changes, which is what actually
   // animates reliably.
   const seated = [...players].sort((a, b) => a.id.localeCompare(b.id));

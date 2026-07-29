@@ -6,7 +6,7 @@ interface NightOrderChecklistProps {
   onToggle: (roleId: string, checked: boolean) => void;
 }
 
-/** Night-order reminder checklist (spec feature 6) — filtered to roles in play, resets each night. */
+/** Night-order reminder checklist (spec feature 6) - filtered to roles in play, resets each night. */
 export function NightOrderChecklist({ nightNumber, items, onToggle }: NightOrderChecklistProps) {
   if (items.length === 0) {
     return <p className="text-sm text-ink/70">No night-order roles are in play yet.</p>;
@@ -34,13 +34,13 @@ export function NightOrderChecklist({ nightNumber, items, onToggle }: NightOrder
                 {item.order}. {item.roleName}
                 {item.playerDisplayName ? (
                   <span className="ml-2 text-xs text-ink/70">
-                    seat {item.seatPosition !== null ? item.seatPosition + 1 : '?'} — {item.playerDisplayName}
+                    seat {item.seatPosition !== null ? item.seatPosition + 1 : '?'} - {item.playerDisplayName}
                   </span>
                 ) : null}
               </span>
               {(item.neighborLeft || item.neighborRight) && (
                 <span className="text-xs text-ink/65">
-                  Neighbors: {item.neighborLeft ?? '—'} / {item.neighborRight ?? '—'}
+                  Neighbors: {item.neighborLeft ?? '-'} / {item.neighborRight ?? '-'}
                 </span>
               )}
               <span className="mt-1 text-sm text-ink/80">{item.reminderText}</span>

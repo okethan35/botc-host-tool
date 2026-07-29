@@ -19,7 +19,7 @@ function nextLabel(phase: GamePhase, nightNumber: number): string {
 
 /**
  * A single forward action (lobby -> night -> day -> night -> ...) instead of
- * three always-clickable phase buttons — the old version let the host jump
+ * three always-clickable phase buttons - the old version let the host jump
  * to any phase in any order, which read as arbitrary rather than guided.
  * "Reset to lobby" is kept as an explicit, confirmed escape hatch for
  * mistakes rather than a first-class option in the normal flow.

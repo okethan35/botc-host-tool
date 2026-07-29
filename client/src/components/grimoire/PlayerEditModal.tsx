@@ -63,7 +63,7 @@ export function PlayerEditModal({
             onChange={(e) => onSetRole(player.id, e.target.value || null)}
             className="rounded-lg border border-ink/40 bg-paper px-3 py-2 text-ink focus:border-neutral focus:outline-none"
           >
-            <option value="">— none —</option>
+            <option value="">(none)</option>
             {roles.map((role) => (
               <option key={role.id} value={role.id}>
                 {role.name} ({role.team})

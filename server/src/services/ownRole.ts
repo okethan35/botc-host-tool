@@ -1,7 +1,7 @@
 import type { Alignment, OwnRoleReveal } from 'shared';
 import type { RuntimeState } from '../state/types';
 
-/** What a player is told about themselves once a role is assigned — never their neighbors'. */
+/** What a player is told about themselves once a role is assigned - never their neighbors'. */
 export function buildOwnRoleReveal(
   state: RuntimeState,
   roleId: string,

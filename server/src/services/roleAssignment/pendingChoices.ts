@@ -3,7 +3,7 @@
  * resolvers awaiting a `roles:setupChoiceAnswer` for a specific roleId. The
  * assignment pipeline `Promise.all`s a batch of `registerPending(...)` calls;
  * each resolves independently as `resolvePending(...)` is invoked by the
- * socket handler, which is the concrete mechanism for "pausing mid-draw" —
+ * socket handler, which is the concrete mechanism for "pausing mid-draw" -
  * no timers, no polling.
  */
 interface PendingResolver {

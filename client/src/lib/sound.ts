@@ -1,5 +1,5 @@
 // Real recorded book page-turn sample (client/public/sounds/page-turn.mp3),
-// not synthesized — "Single book paging" from Mixkit's free sound-effects
+// not synthesized - "Single book paging" from Mixkit's free sound-effects
 // library (mixkit.co/free-sound-effects/page/), usable for free in personal
 // and commercial projects under the Mixkit license, no attribution required.
 

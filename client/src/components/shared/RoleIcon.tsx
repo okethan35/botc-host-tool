@@ -6,7 +6,7 @@ interface RoleIconProps {
   className?: string;
 }
 
-/** Renders nothing if no icon is mapped for this role (e.g. future non-TB scripts) — never a broken-image box. */
+/** Renders nothing if no icon is mapped for this role (e.g. future non-TB scripts) - never a broken-image box. */
 export function RoleIcon({ roleName, size = 32, className = '' }: RoleIconProps) {
   const path = getRoleIconPath(roleName);
   if (!path) return null;

@@ -36,13 +36,13 @@ function mergeRefs<T>(...refs: (RefCallback<T> | null | undefined)[]): RefCallba
 }
 
 /**
- * Drag-to-reorder seating list (spec feature 4) — writes seatPosition via
+ * Drag-to-reorder seating list (spec feature 4) - writes seatPosition via
  * seats:reorder. Two things were confusing about the original version: the
  * whole row was a drag target (no visible affordance for *what* was
  * draggable, and dragging is imprecise on touch), and there was no visual
  * tie back to the physical circle the order actually describes. Now: a
  * dedicated drag handle, explicit up/down buttons as a precise alternative,
- * and a live ring preview next to the list — and both the row list and the
+ * and a live ring preview next to the list - and both the row list and the
  * ring preview animate rows/seats sliding to their new spot when the arrow
  * buttons are used (drag already animates natively via dnd-kit).
  */
@@ -60,7 +60,7 @@ export function SeatOrderEditor({ players, roles, onReorder }: SeatOrderEditorPr
   }
 
   // moveBy/handleDragEnd must compute "next order" from the truly-latest
-  // order, not from `effectiveOrder` as captured by this render's closure —
+  // order, not from `effectiveOrder` as captured by this render's closure -
   // if the arrows are clicked again before React has re-rendered from the
   // previous click, a closure-captured value is stale, and the second call
   // silently computes its result from the pre-first-click order, discarding
@@ -75,7 +75,7 @@ export function SeatOrderEditor({ players, roles, onReorder }: SeatOrderEditorPr
   // FLIP animation for the row list: dnd-kit already animates drag-triggered
   // reorders via its own transform/transition, but a reorder triggered by
   // the arrow buttons is just a plain state update with no positional
-  // continuity — this manually measures each row before/after the reorder
+  // continuity - this manually measures each row before/after the reorder
   // and animates the delta away, so rows visibly slide to their new spot.
   const rowRefs = useRef(new Map<string, HTMLLIElement>());
   const prevRects = useRef(new Map<string, DOMRect>());
@@ -95,8 +95,8 @@ export function SeatOrderEditor({ players, roles, onReorder }: SeatOrderEditorPr
     // one's requestAnimationFrame has fired measures that row's mid-flight
     // *visual* position instead of its true layout position; (2) the old
     // version captured `prevRects` (the baseline for the *next* comparison)
-    // by re-measuring *after* applying this cycle's own freeze-transform —
-    // which reads back the OLD position, not the settled new one — so every
+    // by re-measuring *after* applying this cycle's own freeze-transform -
+    // which reads back the OLD position, not the settled new one - so every
     // subsequent move of the same row compounded on top of leftover
     // displacement from every previous move instead of measuring cleanly
     // from where it actually is. That compounding is exactly "the more you
@@ -112,8 +112,8 @@ export function SeatOrderEditor({ players, roles, onReorder }: SeatOrderEditorPr
 
     if (animateNextRef.current) {
       const generation = ++generationRef.current;
-      // Only the rows that actually have a delta this cycle — never the
-      // full rowRefs map — so this cycle's rAF can only ever touch rows it
+      // Only the rows that actually have a delta this cycle - never the
+      // full rowRefs map - so this cycle's rAF can only ever touch rows it
       // itself is responsible for, regardless of what any other pending
       // callback from an overlapping click does.
       const animating: HTMLLIElement[] = [];
@@ -131,7 +131,7 @@ export function SeatOrderEditor({ players, roles, onReorder }: SeatOrderEditorPr
       if (animating.length > 0) {
         animating.forEach((el) => el.getBoundingClientRect()); // force reflow before animating away
         requestAnimationFrame(() => {
-          if (generationRef.current !== generation) return; // superseded by a newer cycle — the newer cycle's own effect already re-measured cleanly
+          if (generationRef.current !== generation) return; // superseded by a newer cycle - the newer cycle's own effect already re-measured cleanly
           animating.forEach((el) => {
             el.style.transition = 'transform 300ms ease';
             el.style.transform = '';

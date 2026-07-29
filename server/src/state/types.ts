@@ -1,6 +1,6 @@
 import type { Alignment, GamePhase, Role } from 'shared';
 
-/** Server-internal full game record — includes hostToken, never sent to clients directly. */
+/** Server-internal full game record - includes hostToken, never sent to clients directly. */
 export interface RuntimeGame {
   id: string;
   code: string;
@@ -11,7 +11,7 @@ export interface RuntimeGame {
   createdAt: string;
 }
 
-/** Server-internal full player record — includes sessionToken/socketId, never broadcast as-is. */
+/** Server-internal full player record - includes sessionToken/socketId, never broadcast as-is. */
 export interface RuntimePlayer {
   id: string;
   gameId: string;
@@ -31,7 +31,7 @@ export interface RuntimePlayer {
 export interface RuntimeState {
   game: RuntimeGame;
   players: Map<string, RuntimePlayer>;
-  /** Full role list for the game's script — static, cached once per game. */
+  /** Full role list for the game's script - static, cached once per game. */
   roles: Role[];
   /** Night-order checkbox progress, key `${nightNumber}:${roleId}`. */
   nightOrderProgress: Map<string, boolean>;

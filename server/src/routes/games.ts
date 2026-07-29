@@ -11,7 +11,7 @@ import { gameRoom, hostRoom } from '../socket/rooms';
 
 export const gamesRouter = Router();
 
-/** POST /api/games — host creates a game, gets back a join code + hostToken. */
+/** POST /api/games - host creates a game, gets back a join code + hostToken. */
 gamesRouter.post('/games', async (req, res) => {
   try {
     const scriptId = typeof req.body?.scriptId === 'string' ? req.body.scriptId : TROUBLE_BREWING_SCRIPT_ID;
@@ -63,7 +63,7 @@ gamesRouter.post('/games', async (req, res) => {
   }
 });
 
-/** GET /api/games/:code — public lookup used by the join page to validate a code. */
+/** GET /api/games/:code - public lookup used by the join page to validate a code. */
 gamesRouter.get('/games/:code', async (req, res) => {
   const code = req.params.code?.toUpperCase() ?? '';
   const state = await loadGameStateByCode(code);
@@ -79,7 +79,7 @@ gamesRouter.get('/games/:code', async (req, res) => {
   });
 });
 
-/** POST /api/games/:code/join — player joins with a display name, gets a session token. */
+/** POST /api/games/:code/join - player joins with a display name, gets a session token. */
 gamesRouter.post('/games/:code/join', async (req, res) => {
   const code = req.params.code?.toUpperCase() ?? '';
   const displayName = typeof req.body?.displayName === 'string' ? req.body.displayName.trim() : '';
@@ -96,7 +96,7 @@ gamesRouter.post('/games/:code/join', async (req, res) => {
   }
 
   if (state.game.phase !== 'lobby') {
-    res.status(400).json({ error: 'This game has already started — ask the host to add you as a player.' });
+    res.status(400).json({ error: 'This game has already started - ask the host to add you as a player.' });
     return;
   }
 
@@ -109,7 +109,7 @@ gamesRouter.post('/games/:code/join', async (req, res) => {
     (p) => p.displayName.toLowerCase() === displayName.toLowerCase(),
   );
   if (nameTaken) {
-    res.status(400).json({ error: `"${displayName}" is already taken in this game — pick another name.` });
+    res.status(400).json({ error: `"${displayName}" is already taken in this game - pick another name.` });
     return;
   }
 
@@ -154,7 +154,7 @@ gamesRouter.post('/games/:code/join', async (req, res) => {
       players: [...cached.players.values()].map(toHostPlayer),
     });
   } catch {
-    // Socket.io not initialized (shouldn't happen once the server is up) — non-fatal for the REST response.
+    // Socket.io not initialized (shouldn't happen once the server is up) - non-fatal for the REST response.
   }
 
   res.status(201).json({ gameId: state.game.id, playerId: player.id, sessionToken });

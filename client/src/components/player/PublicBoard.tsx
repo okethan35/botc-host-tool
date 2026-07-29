@@ -8,7 +8,7 @@ interface PublicBoardProps {
   players: PublicPlayer[];
 }
 
-/** Alive/dead status for all players + phase/night — genuinely public info, never role/alignment. */
+/** Alive/dead status for all players + phase/night - genuinely public info, never role/alignment. */
 export function PublicBoard({ game, players }: PublicBoardProps) {
   const sorted = sortBySeat(players);
   return (

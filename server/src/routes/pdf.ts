@@ -5,7 +5,7 @@ import { renderGrimoirePdf } from '../services/pdf';
 
 export const pdfRouter = Router();
 
-/** GET /api/games/:gameId/pdf?token={hostToken} — downloadable PDF grimoire reference. */
+/** GET /api/games/:gameId/pdf?token={hostToken} - downloadable PDF grimoire reference. */
 pdfRouter.get('/games/:gameId/pdf', requireHostToken, async (req: HostAuthedRequest, res) => {
   const state = req.gameState;
   if (!state) {

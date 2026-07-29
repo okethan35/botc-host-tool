@@ -9,8 +9,8 @@ interface SetupChoiceModalProps {
 }
 
 /**
- * Renders when `roles:setupChoiceRequired` arrives — blocks the grimoire
- * with a stepper per pending role (e.g. "Baron drawn — add how many
+ * Renders when `roles:setupChoiceRequired` arrives - blocks the grimoire
+ * with a stepper per pending role (e.g. "Baron drawn - add how many
  * outsiders? 0 / 1 / 2") until every pending choice has been answered.
  */
 export function SetupChoiceModal({ pending, onAnswer }: SetupChoiceModalProps) {
@@ -39,7 +39,7 @@ function SetupChoiceRow({
   return (
     <div className="rounded-lg border border-ink/30 p-3">
       <p className="mb-2 text-sm text-ink">
-        <span className="font-semibold">{choice.roleName}</span> drawn — choose a value from {choice.min} to{' '}
+        <span className="font-semibold">{choice.roleName}</span> drawn - choose a value from {choice.min} to{' '}
         {choice.max} (adjusts the {choice.offsetTeam} count accordingly).
       </p>
       <div className="flex gap-2">

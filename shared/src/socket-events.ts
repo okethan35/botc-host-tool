@@ -6,7 +6,7 @@ import type { NightOrderItem } from './types/nightOrder';
 /**
  * Socket.io event name constants. Single namespace; sockets join room
  * `game:{gameId}`, host sockets additionally join `game:{gameId}:host`.
- * Client -> server events only ack for error signaling — success flows
+ * Client -> server events only ack for error signaling - success flows
  * through the broadcasts below, never duplicated in the ack payload.
  */
 export const SOCKET_EVENTS = {
@@ -143,7 +143,7 @@ export interface SeatingWarningPayload {
   warnings: SeatingWarningItem[];
 }
 
-// No fields — host triggers assignment for the current roster.
+// No fields - host triggers assignment for the current roster.
 export type RolesAssignPayload = Record<string, never>;
 
 export interface PendingSetupChoice {
@@ -172,7 +172,7 @@ export interface PhaseChangedPayload {
   game: PublicGame;
 }
 
-// No fields — requests the current checklist.
+// No fields - requests the current checklist.
 export type NightOrderGetPayload = Record<string, never>;
 
 export interface NightOrderListPayload {

@@ -1,4 +1,4 @@
-# Render Blueprint — deploys the server (Node/Express/Socket.io) as a free
+# Render Blueprint - deploys the server (Node/Express/Socket.io) as a free
 # web service and the client (Vite build) as a free static site, from this
 # one monorepo. See README.md "Deploying" section for the full walkthrough
 # (Neon database setup, first-deploy steps, what to do if these two service
@@ -6,12 +6,12 @@
 #
 # Free-tier notes:
 #   - The web service (server) spins down after ~15 min of inactivity and
-#     takes ~30-60s to wake up on the next request — expected and fine here,
+#     takes ~30-60s to wake up on the next request - expected and fine here,
 #     since the app already rehydrates in-memory state from Postgres on
 #     reconnect (see server/src/state/gameStore.ts) for exactly this reason.
-#   - The static site (client) never spins down — static hosting has no
+#   - The static site (client) never spins down - static hosting has no
 #     "cold start."
-#   - Postgres itself is NOT defined here — Render's own free Postgres tier
+#   - Postgres itself is NOT defined here - Render's own free Postgres tier
 #     auto-deletes after 30 days, which defeats "friends can use it whenever
 #     long-term." Use Neon's free tier instead (no expiration) and paste its
 #     connection strings in when prompted during blueprint creation.
@@ -19,22 +19,22 @@
 #     Playwright, which needs a real browser binary. `playwright install
 #     chromium` below downloads just the binary (no `--with-deps`: that flag
 #     additionally tries to apt-get install OS-level shared libraries via
-#     `su` to root, which Render's build container doesn't grant — it fails
+#     `su` to root, which Render's build container doesn't grant - it fails
 #     the whole build, not just this step). Separately: Playwright's default
 #     cache dir (~/.cache/ms-playwright) lives outside the project directory,
-#     which Render's build and runtime containers do NOT share — the browser
+#     which Render's build and runtime containers do NOT share - the browser
 #     downloads fine during build and then "doesn't exist" at runtime.
 #     PLAYWRIGHT_BROWSERS_PATH below points the cache at a path *inside* the
 #     project instead, so it's actually part of what ships to runtime.
 #     Everything else in the app (hosting, roles, roster, ring, seating,
 #     night order, phantom-player conversion) is fully independent of this
-#     either way — the PDF route already returns a clean error response
+#     either way - the PDF route already returns a clean error response
 #     instead of crashing the server if Chromium can't launch, so a broken
 #     PDF export is an isolated thing to debug later, never a reason the
 #     whole app is unavailable.
 #   - NODE_ENV=production is set below (for the app's own runtime use), but
 #     `npm install` treats that as an implicit `--omit=dev` and silently
-#     skips devDependencies — which is where typescript, esbuild, @types/*,
+#     skips devDependencies - which is where typescript, esbuild, @types/*,
 #     and the `prisma` CLI package (whose postinstall hook is what actually
 #     generates @prisma/client's real types) all live. `--include=dev`
 #     forces them in regardless. `prisma generate` is also called out
@@ -51,15 +51,15 @@ services:
       - key: NODE_ENV
         value: production
       # Keeps the Chromium binary Playwright downloads during build inside
-      # the project directory, so it's actually present at runtime — see
+      # the project directory, so it's actually present at runtime - see
       # the PDF export note above.
       - key: PLAYWRIGHT_BROWSERS_PATH
         value: /opt/render/project/.cache/playwright
       # Pasted in during blueprint creation from your Neon project's
-      # connection details (pooled connection — the "-pooler" one).
+      # connection details (pooled connection - the "-pooler" one).
       - key: DATABASE_URL
         sync: false
-      # Neon's *direct* (non-pooled) connection string — required by
+      # Neon's *direct* (non-pooled) connection string - required by
       # `prisma migrate deploy` specifically, not used at runtime otherwise.
       - key: DIRECT_URL
         sync: false
@@ -77,7 +77,7 @@ services:
     staticPublishPath: client/dist
     envVars:
       # Baked into the client bundle at build time (Vite inlines VITE_*
-      # vars) — must match the server's deployed URL exactly. Same caveat
+      # vars) - must match the server's deployed URL exactly. Same caveat
       # as CLIENT_ORIGIN above if the name below ends up taken.
       - key: VITE_SERVER_URL
         value: https://botc-host-toll-server.onrender.com

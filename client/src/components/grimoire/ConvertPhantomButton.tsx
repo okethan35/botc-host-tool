@@ -9,7 +9,7 @@ interface ConvertPhantomButtonProps {
 }
 
 /**
- * Phantom -> real conversion. Two distinct states, not one — the server
+ * Phantom -> real conversion. Two distinct states, not one - the server
  * flips `hasDevice` to true in the very same event that hands back the
  * claim link, so gating this whole block on `!player.hasDevice` (the old
  * behavior) made the QR/link disappear the instant it became available.

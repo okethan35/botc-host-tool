@@ -14,7 +14,7 @@ server/generated/
 !.vscode/extensions.json
 .idea/
 
-# Local AI-assistant tooling config — never committed
+# Local AI-assistant tooling config - never committed
 .claude/
 
 # OS

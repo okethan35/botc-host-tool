@@ -46,7 +46,7 @@ export function joinGame(code: string, displayName: string): Promise<JoinGameRes
   });
 }
 
-/** Direct download URL for the server-generated PDF grimoire reference (not a fetch — used as a link/window.open target). */
+/** Direct download URL for the server-generated PDF grimoire reference (not a fetch - used as a link/window.open target). */
 export function pdfDownloadUrl(gameId: string, hostToken: string): string {
   return `${API_BASE}/api/games/${gameId}/pdf?token=${encodeURIComponent(hostToken)}`;
 }

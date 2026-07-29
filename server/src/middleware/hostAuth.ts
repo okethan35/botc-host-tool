@@ -8,7 +8,7 @@ export interface HostAuthedRequest extends Request {
 
 /**
  * REST-only guard for the print route (`GET /api/games/:gameId/print?token=`)
- * — a query-param token since print opens via `window.open`, which can't
+ * - a query-param token since print opens via `window.open`, which can't
  * carry a socket identity. Every other mutation goes over the socket.
  */
 export async function requireHostToken(

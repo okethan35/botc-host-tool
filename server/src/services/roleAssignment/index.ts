@@ -75,7 +75,7 @@ export async function assignRoles(state: RuntimeState, io: TypedServer): Promise
     });
     io.to(hostRoom(gameId)).emit(SOCKET_EVENTS.ROLES_SETUP_CHOICE_REQUIRED, { pending });
 
-    // Pipeline pauses here — awaits one answer per pending role via the
+    // Pipeline pauses here - awaits one answer per pending role via the
     // pendingChoices resolver map, resumed by roles:setupChoiceAnswer.
     const answers = await Promise.all(choosable.map((role) => registerPending(gameId, role.id)));
 

@@ -31,7 +31,7 @@ export function LandingPage() {
         <p className="mt-1 text-lg text-neutral">Host Companion</p>
       </div>
       <p className="text-sm text-ink/70">
-        A host-facing tool for running games in person — tracks roles, seating, and phase state live, and produces a
+        A host-facing tool for running games in person - tracks roles, seating, and phase state live, and produces a
         printable grimoire reference.
       </p>
       <div className="flex flex-col items-center gap-3">

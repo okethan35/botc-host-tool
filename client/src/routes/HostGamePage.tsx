@@ -274,7 +274,7 @@ export function HostGamePage() {
         onClick={() => setCodeModalOpen(true)}
         className="text-center text-xs text-ink/70 hover:text-ink/70"
       >
-        Join code: <span className="font-mono">{store.game?.code}</span> — share this with players.
+        Join code: <span className="font-mono">{store.game?.code}</span> - share this with players.
       </button>
 
       <Modal open={codeModalOpen} onClose={() => setCodeModalOpen(false)} title="Game code">

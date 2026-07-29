@@ -6,7 +6,7 @@ import { gameRoom, hostRoom } from '../rooms';
 import { requireHostState } from './guards';
 import type { TypedServer, TypedSocket } from '../types';
 
-/** Phase control (spec feature 5) — lobby -> night -> day -> night... broadcast to everyone. */
+/** Phase control (spec feature 5) - lobby -> night -> day -> night... broadcast to everyone. */
 export function registerPhaseHandlers(io: TypedServer, socket: TypedSocket): void {
   socket.on(SOCKET_EVENTS.PHASE_CHANGE, async ({ phase }) => {
     const state = requireHostState(socket);

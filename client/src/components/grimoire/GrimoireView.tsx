@@ -11,7 +11,7 @@ interface GrimoireViewProps {
   onAssignRoles: () => void;
 }
 
-/** Roster tab: full list view (name, role, alignment, alive/dead, seat) — spec feature 2/3. */
+/** Roster tab: full list view (name, role, alignment, alive/dead, seat) - spec feature 2/3. */
 export function GrimoireView({ players, roles, onAddPhantom, onSelectPlayer, onAssignRoles }: GrimoireViewProps) {
   return (
     <div className="flex flex-col gap-4">

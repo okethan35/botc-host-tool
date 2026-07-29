@@ -5,7 +5,7 @@ interface SeatingConstraintWarningProps {
   warnings: SeatingWarningItem[];
 }
 
-/** Non-blocking, dismissible-but-persistent banner — reappears if the warning set changes. */
+/** Non-blocking, dismissible-but-persistent banner - reappears if the warning set changes. */
 export function SeatingConstraintWarning({ warnings }: SeatingConstraintWarningProps) {
   const key = warnings.map((w) => `${w.roleId}:${w.message}`).join('|');
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);

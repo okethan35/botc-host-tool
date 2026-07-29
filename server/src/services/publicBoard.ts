@@ -1,7 +1,7 @@
 import type { BoardUpdatePayload, Player, PublicGame, PublicPlayer } from 'shared';
 import type { RuntimePlayer, RuntimeState } from '../state/types';
 
-/** Full player record for the host grimoire — omits socketId/sessionToken. */
+/** Full player record for the host grimoire - omits socketId/sessionToken. */
 export function toHostPlayer(player: RuntimePlayer): Player {
   return {
     id: player.id,

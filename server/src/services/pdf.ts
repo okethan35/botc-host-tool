@@ -10,7 +10,7 @@ const NOTES_LINES_PER_COLUMN = 12;
 // Hard cap on the ring's printed footprint so it can never crowd out the
 // notes section or run into the page margins at high player counts. Once the
 // "ideal" (evenly-spaced) circular size would exceed these, the ring is
-// squeezed into an ellipse — rather than staying circular and overflowing.
+// squeezed into an ellipse - rather than staying circular and overflowing.
 const MAX_RING_WIDTH = 620;
 const MAX_RING_HEIGHT = 520;
 // Compressing seat *positions* into the capped ellipse without also shrinking
@@ -39,7 +39,7 @@ function renderRingHtml(totalSeats: number, seats: { seatPosition: number; displ
   const seatBoxes = seats
     .map((seat) => {
       // Position on the "ideal" evenly-spaced circle first, then squeeze
-      // proportionally onto the capped ellipse — keeps seat 1 at top,
+      // proportionally onto the capped ellipse - keeps seat 1 at top,
       // clockwise order, and even angular spacing regardless of the squeeze.
       const { x, y } = polarToCartesian(seat.seatPosition, totalSeats, idealRadius);
       const left = centerX + (x / idealRadius) * radiusX;

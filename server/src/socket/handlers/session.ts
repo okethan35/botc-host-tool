@@ -9,7 +9,7 @@ import type { TypedServer, TypedSocket } from '../types';
 /**
  * Handles `session:auth` (host or player reconnect) and the disconnect
  * cleanup. Lazily rehydrates the in-memory gameStore from Postgres if this
- * is the first touch since a server restart — that rehydration *is* the
+ * is the first touch since a server restart - that rehydration *is* the
  * reconnect-resilience mechanism (see build plan section 6).
  */
 export function registerSessionHandlers(io: TypedServer, socket: TypedSocket): void {
@@ -93,6 +93,6 @@ async function handleDisconnect(socket: TypedSocket): Promise<void> {
   try {
     await prisma.player.update({ where: { id: player.id }, data: { socketId: null } });
   } catch {
-    // Player row may have been removed concurrently — non-fatal.
+    // Player row may have been removed concurrently - non-fatal.
   }
 }

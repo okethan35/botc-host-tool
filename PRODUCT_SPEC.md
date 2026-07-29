@@ -1,4 +1,4 @@
-# Blood on the Clocktower Host Companion — Product Spec
+# Blood on the Clocktower Host Companion - Product Spec
 
 ## Purpose
 
@@ -9,8 +9,8 @@ A host-facing tool for running Blood on the Clocktower games. Supplementary, not
 - No automated night-action resolution (host decides everything, app just reminds/tracks)
 - No voting/nomination automation
 - No multiple simultaneous scripts in v1 (ship with Trouble Brewing only, design data model to allow more later)
-- No accounts/auth — game-scoped session tokens only
-- No PDF generation — print view uses browser print (`@media print` CSS)
+- No accounts/auth - game-scoped session tokens only
+- No PDF generation - print view uses browser print (`@media print` CSS)
 
 ## Color theming
 
@@ -25,7 +25,7 @@ CSS variables, applied consistently across host and player views:
 - Good-aligned role cards/badges: blue accents
 - Evil-aligned role cards/badges: red accents
 - General app chrome, public board, layout shell, phase indicators: purple
-- Alignment can differ from a role's default alignment (e.g. Recluse registers evil, some abilities flip alignment) — never derive display color from role directly, always from the player's current `alignment` field
+- Alignment can differ from a role's default alignment (e.g. Recluse registers evil, some abilities flip alignment) - never derive display color from role directly, always from the player's current `alignment` field
 
 ## Data model
 
@@ -77,22 +77,22 @@ Official Blood on the Clocktower ability text, almanac entries, and reminder tok
 ### 1. Game creation & joining
 - Host creates a game, gets a short code (4–6 alphanumeric characters).
 - Players join via code + display name.
-- Host can add "phantom" players (`hasDevice: false`) for anyone without a phone — same Player record as everyone else, just no socket attached, host manages their role/status directly.
+- Host can add "phantom" players (`hasDevice: false`) for anyone without a phone - same Player record as everyone else, just no socket attached, host manages their role/status directly.
 
 ### 2. Role assignment
 - Single script (Trouble Brewing) for v1.
 - Server-side only: role pool is looked up by player count, shuffled, assigned. Never sent to client until each player's own role is revealed to them.
-- Setup modifiers (e.g. roles that change team counts) run as a pass before final assignment — build this as a hook, not bolted on after, since it's structurally different from plain random assignment.
+- Setup modifiers (e.g. roles that change team counts) run as a pass before final assignment - build this as a hook, not bolted on after, since it's structurally different from plain random assignment.
 
 ### 3. Host grimoire view
 - Full roster: name, role, alignment (color-coded), alive/dead, seat position.
 - Tap a player to: edit notes, mark dead/alive, reassign role, change alignment.
-- Circle layout view — seats arranged in an actual ring (not a table), matching physical seating. Computed via basic trig from seat index and total player count so it scales to any group size.
+- Circle layout view - seats arranged in an actual ring (not a table), matching physical seating. Computed via basic trig from seat index and total player count so it scales to any group size.
 - Same ring component reused for the on-screen grimoire and the print view (build once).
 
 ### 4. Circle/seat order management
 - Drag-to-reorder list, writes to `seatPosition`.
-- Once set, auto-compute left/right neighbor for any seat — needed for neighbor-dependent roles and useful context on the night-order checklist.
+- Once set, auto-compute left/right neighbor for any seat - needed for neighbor-dependent roles and useful context on the night-order checklist.
 
 ### 5. Phase control
 - Host toggles lobby → night → day → night... 
@@ -111,7 +111,7 @@ Official Blood on the Clocktower ability text, almanac entries, and reminder tok
 ### 8. Player view
 - Their own role name + paraphrased ability text + paraphrased FAQ.
 - Public board: alive/dead status for all players, current phase (day/night), night number.
-- Nothing else — no access to other players' roles, no host tools.
+- Nothing else - no access to other players' roles, no host tools.
 
 ### 9. Print view
 - Route like `/game/:id/print`, `@media print` CSS, host uses browser print.
@@ -119,7 +119,7 @@ Official Blood on the Clocktower ability text, almanac entries, and reminder tok
   - Ring diagram: seat number + blank/pre-filled name-role line per seat, arranged clockwise starting from seat 1 at top (matches the reference layout your friend already uses).
   - Below the ring: night-order checklist for the script, pre-filtered to roles in this game (first night + other night versions).
   - Blank note-separator lines below that for freeform notes (host writes on paper during play).
-- Pre-filled with actual seat/role/name data from the game — not a blank template. This is the main value-add over a printed blank sheet.
+- Pre-filled with actual seat/role/name data from the game - not a blank template. This is the main value-add over a printed blank sheet.
 
 ## Suggested stack
 
@@ -143,4 +143,4 @@ Official Blood on the Clocktower ability text, almanac entries, and reminder tok
 
 - Exact join-code character set/length
 - Whether phantom players can be "converted" to real players mid-game if someone's phone dies and they join fresh (probably: yes, host reassigns socket to existing Player record)
-- Whether alignment-flip abilities are tracked as a log (for host reference) or just overwrite the current field with no history — simpler to start with no history
+- Whether alignment-flip abilities are tracked as a log (for host reference) or just overwrite the current field with no history - simpler to start with no history

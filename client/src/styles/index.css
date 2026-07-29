@@ -5,14 +5,14 @@
 :root {
   /* Values are space-separated RGB channels (not hex) so Tailwind's
      color-opacity modifiers (e.g. text-ink/60) can compose them via
-     rgb(var(--x) / <alpha-value>) — see tailwind.config.ts. A plain hex
+     rgb(var(--x) / <alpha-value>) - see tailwind.config.ts. A plain hex
      string in a CSS variable can't be combined with an opacity modifier;
      Tailwind silently fails to generate those utilities at all. */
   --color-good: 37 99 235; /* #2563eb blue */
   --color-evil: 220 38 38; /* #dc2626 red */
   --color-neutral: 124 58 237; /* #7c3aed purple */
 
-  /* Cream parchment surfaces (content) + sepia ink text — kept light and
+  /* Cream parchment surfaces (content) + sepia ink text - kept light and
      desaturated so text stays legible; not the site's dominant color. */
   --color-paper: 244 236 216; /* #f4ecd8 */
   --color-paper-panel: 236 224 196; /* #ece0c4 */
@@ -20,7 +20,7 @@
   --color-ink: 43 32 19; /* #2b2013 */
   --color-cream: 247 241 227; /* #f7f1e3 */
 
-  /* Deep royal-violet chrome (header, nav, layout shell) — the site's actual
+  /* Deep royal-violet chrome (header, nav, layout shell) - the site's actual
      anchor color, per bloodontheclocktower.com's own dominant palette. */
   --color-chrome: 42 28 63; /* #2a1c3f */
   --color-chrome-deep: 28 18 44; /* #1c122c */
@@ -33,7 +33,7 @@
 body {
   @apply bg-paper font-serif text-ink antialiased;
   /* Aged/foxed paper: soft water-ring stains, dirt blotches, and small
-     foxing spots. Lives on the page background only — actual content sits
+     foxing spots. Lives on the page background only - actual content sits
      on top of solid-ish card panels, so this can be pushed further than a
      texture directly behind text would tolerate. */
   background-image:

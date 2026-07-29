@@ -6,7 +6,7 @@ import { gameRoom, hostRoom } from '../rooms';
 import { requireHostState } from './guards';
 import type { TypedServer, TypedSocket } from '../types';
 
-/** Seat drag-reorder (spec feature 4) — rewrites all seatPositions in one transaction. */
+/** Seat drag-reorder (spec feature 4) - rewrites all seatPositions in one transaction. */
 export function registerSeatsHandlers(io: TypedServer, socket: TypedSocket): void {
   socket.on(SOCKET_EVENTS.SEATS_REORDER, async ({ orderedPlayerIds }) => {
     const state = requireHostState(socket);

@@ -1,4 +1,4 @@
-// Blood on the Clocktower Host Companion — Prisma schema
+// Blood on the Clocktower Host Companion - Prisma schema
 
 generator client {
   provider = "prisma-client-js"
@@ -7,7 +7,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   // DATABASE_URL: pooled connection, used by the running app (many short-
-  // lived queries — this is what the pooler is for).
+  // lived queries - this is what the pooler is for).
   // DIRECT_URL: unpooled connection, required by `prisma migrate` itself.
   // Locally with a native/Docker Postgres these are typically the same
   // value; hosted providers like Neon give you two different connection
@@ -72,7 +72,7 @@ model Player {
   /// Opaque per-player secret for reconnect. Unique so a phantom-to-real
   /// conversion can issue a fresh one that invalidates the old value.
   sessionToken  String     @unique
-  /// No DB-level unique constraint on (gameId, seatPosition) — seats:reorder
+  /// No DB-level unique constraint on (gameId, seatPosition) - seats:reorder
   /// rewrites all positions in one transaction, so validity is enforced by
   /// construction rather than a constraint.
   seatPosition  Int
@@ -97,7 +97,7 @@ model Role {
   otherNightOrder  Int?
   reminderText     String
   /// Nullable JSON, typed in shared/src/types/role.ts as SetupEffect (a
-  /// discriminated union) — Prisma Json has no native union support.
+  /// discriminated union) - Prisma Json has no native union support.
   setupEffect      Json?
 
   players            Player[]

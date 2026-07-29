@@ -11,7 +11,7 @@ export interface Neighbors<T> {
  * Computes the left/right physical neighbors of the player at `seatPosition`,
  * wrapping around the circle. `players` need not be pre-sorted.
  *
- * "Left" = previous seat position in the ring, "right" = next seat position —
+ * "Left" = previous seat position in the ring, "right" = next seat position -
  * pure seat-index adjacency, no assumption about facing direction.
  */
 export function getNeighbors<T extends SeatedEntity>(

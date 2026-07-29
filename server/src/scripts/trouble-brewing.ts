@@ -17,10 +17,10 @@ export const TROUBLE_BREWING_SCRIPT = {
   name: 'Trouble Brewing',
 };
 
-const ability = (name: string) => `[PLACEHOLDER ABILITY: ${name} — paraphrased ability text goes here]`;
-const faq = (name: string) => `[PLACEHOLDER FAQ: ${name} — paraphrased FAQ text goes here]`;
+const ability = (name: string) => `[PLACEHOLDER ABILITY: ${name} - paraphrased ability text goes here]`;
+const faq = (name: string) => `[PLACEHOLDER FAQ: ${name} - paraphrased FAQ text goes here]`;
 const reminder = (name: string) =>
-  `[PLACEHOLDER REMINDER: ${name} — paraphrased host night-order reminder goes here]`;
+  `[PLACEHOLDER REMINDER: ${name} - paraphrased host night-order reminder goes here]`;
 
 /**
  * All 22 official Trouble Brewing roles. Role *names* are used as-is (fine
@@ -28,7 +28,7 @@ const reminder = (name: string) =>
  *
  * ability/faq/reminder text: 16 of 22 roles now use real paraphrased content
  * from role_desc.md (the project's own content-gathering doc, written in the
- * user's own words — not copied from the official almanac). The remaining 6
+ * user's own words - not copied from the official almanac). The remaining 6
  * (Saint, Poisoner, Spy, Scarlet Woman, Baron, Imp) are still
  * `[PLACEHOLDER ...]` pending that doc covering them. Two roles that do have
  * real ability/FAQ text (Monk, Ravenkeeper) still use the placeholder
@@ -38,7 +38,7 @@ const reminder = (name: string) =>
  * NIGHT ORDER NOTE: firstNightOrder/otherNightOrder below are an
  * approximation of the standard Trouble Brewing night-order sequence
  * (relative order only, not official prose). Flagged for the user to verify
- * against a rules reference — see build plan "what the user still needs to
+ * against a rules reference - see build plan "what the user still needs to
  * provide". It does not block functionality either way.
  */
 export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
@@ -59,7 +59,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     team: 'townsfolk',
     abilityText: 'You start knowing that 1 of 2 players is a particular Outsider (or that zero are in play).',
     faqText:
-      'You are shown 2 players and then an Outsider character — one of those 2 players is that Outsider. If there is no Outsider in play, you receive a 0.',
+      'You are shown 2 players and then an Outsider character - one of those 2 players is that Outsider. If there is no Outsider in play, you receive a 0.',
     firstNightOrder: 3,
     otherNightOrder: null,
     reminderText: 'Show the Librarian 2 players, and reveal an Outsider character that one of the 2 players is.',
@@ -80,7 +80,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     team: 'townsfolk',
     abilityText: 'You start knowing how many pairs of evil players there are.',
     faqText:
-      'A pair of evil players is exactly 2 evil players sitting next to each other. One player may be part of 2 pairs — if 3 evil players are sitting in a row, you would be shown 2 pairs.',
+      'A pair of evil players is exactly 2 evil players sitting next to each other. One player may be part of 2 pairs - if 3 evil players are sitting in a row, you would be shown 2 pairs.',
     firstNightOrder: 5,
     otherNightOrder: null,
     reminderText: 'At setup, write down the number of pairs of evil players. Show this number to the Chef when they wake up.',
@@ -103,7 +103,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     abilityText:
       'Each night, choose 2 players: you learn if either is a Demon. There is a good player who registers as a Demon to you.',
     faqText:
-      'Every night you choose 2 players and get a yes/no on whether either is a Demon. One player acts as a red herring — they will always register as a Demon to you.',
+      'Every night you choose 2 players and get a yes/no on whether either is a Demon. One player acts as a red herring - they will always register as a Demon to you.',
     firstNightOrder: 7,
     otherNightOrder: 7,
     reminderText: 'At setup, mark one player as the red herring.',
@@ -127,7 +127,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     faqText: 'Choose a player every night to protect them from the Demon. They can still die from other sources.',
     firstNightOrder: null,
     otherNightOrder: 2,
-    // Host reminder not yet provided for this role — see role_desc.md.
+    // Host reminder not yet provided for this role - see role_desc.md.
     reminderText: reminder('Monk'),
     setupEffect: null,
   },
@@ -138,7 +138,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     faqText: 'Choose wisely.',
     firstNightOrder: null,
     otherNightOrder: 5,
-    // Host reminder not yet provided for this role — see role_desc.md.
+    // Host reminder not yet provided for this role - see role_desc.md.
     reminderText: reminder('Ravenkeeper'),
     setupEffect: null,
   },
@@ -156,7 +156,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     name: 'Slayer',
     team: 'townsfolk',
     abilityText: 'Once per game, during the day, publicly choose a player: if they are the Demon, they die.',
-    faqText: 'One shot — make it count.',
+    faqText: 'One shot - make it count.',
     firstNightOrder: null,
     otherNightOrder: null,
     reminderText: "Track whether the Slayer has used their shot.",
@@ -214,7 +214,7 @@ export const TROUBLE_BREWING_ROLES: RoleSeedData[] = [
     faqText: 'You might look evil to other players and their abilities, even though you are actually good.',
     firstNightOrder: null,
     otherNightOrder: null,
-    reminderText: 'Track which characters see the Recluse as evil — this can change from day to day.',
+    reminderText: 'Track which characters see the Recluse as evil - this can change from day to day.',
     setupEffect: null,
   },
   {

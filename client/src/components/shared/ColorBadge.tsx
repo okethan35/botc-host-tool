@@ -9,7 +9,7 @@ interface ColorBadgeProps {
 
 /**
  * The ONLY component allowed to map alignment -> color. Always reads from
- * `Player.alignment`, never from `Role.team` — this is what makes
+ * `Player.alignment`, never from `Role.team` - this is what makes
  * Recluse-style registration flips (evil-registering good players, etc.)
  * work correctly everywhere the badge is used.
  */

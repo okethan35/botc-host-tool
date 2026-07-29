@@ -43,7 +43,7 @@ export function validateDrawCount(
 
 /**
  * Named precondition rules, interpreted server-side for roles carrying a
- * `precondition` setup effect. No Trouble Brewing role triggers this in v1 —
+ * `precondition` setup effect. No Trouble Brewing role triggers this in v1 -
  * the switch exists so a future script needs no pipeline changes, only a
  * new case here.
  */
