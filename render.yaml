@@ -29,13 +29,20 @@
 #     crashing the server if Chromium can't launch, so a broken PDF export
 #     is an isolated thing to debug later, never a reason the whole app is
 #     unavailable.
+#   - NODE_ENV=production is set below (for the app's own runtime use), but
+#     `npm install` treats that as an implicit `--omit=dev` and silently
+#     skips devDependencies — which is where typescript, esbuild, @types/*,
+#     and the `prisma` CLI package (whose postinstall hook is what actually
+#     generates @prisma/client's real types) all live. `--include=dev`
+#     forces them in regardless. `prisma generate` is also called out
+#     explicitly rather than relying on that postinstall hook firing.
 
 services:
   - type: web
     name: botc-host-toll-server
     runtime: node
     plan: free
-    buildCommand: npm install && (npx playwright install chromium || true) && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
+    buildCommand: npm install --include=dev && npm run prisma:generate -w server && (npx playwright install chromium || true) && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
     startCommand: npm run start -w server
     envVars:
       - key: NODE_ENV
@@ -58,7 +65,7 @@ services:
   - type: web
     name: botc-host-toll-client
     runtime: static
-    buildCommand: npm install && npm run build -w client
+    buildCommand: npm install --include=dev && npm run build -w client
     staticPublishPath: client/dist
     envVars:
       # Baked into the client bundle at build time (Vite inlines VITE_*
