@@ -20,15 +20,18 @@
 #     chromium` below downloads just the binary (no `--with-deps`: that flag
 #     additionally tries to apt-get install OS-level shared libraries via
 #     `su` to root, which Render's build container doesn't grant — it fails
-#     the whole build, not just this step). The `|| true` makes this step
-#     non-fatal on top of that: even if the download itself fails for some
-#     other reason, the rest of the build must still proceed. Everything
-#     else in the app (hosting, roles, roster, ring, seating, night order,
-#     phantom-player conversion) is fully independent of this either way —
-#     the PDF route already returns a clean error response instead of
-#     crashing the server if Chromium can't launch, so a broken PDF export
-#     is an isolated thing to debug later, never a reason the whole app is
-#     unavailable.
+#     the whole build, not just this step). Separately: Playwright's default
+#     cache dir (~/.cache/ms-playwright) lives outside the project directory,
+#     which Render's build and runtime containers do NOT share — the browser
+#     downloads fine during build and then "doesn't exist" at runtime.
+#     PLAYWRIGHT_BROWSERS_PATH below points the cache at a path *inside* the
+#     project instead, so it's actually part of what ships to runtime.
+#     Everything else in the app (hosting, roles, roster, ring, seating,
+#     night order, phantom-player conversion) is fully independent of this
+#     either way — the PDF route already returns a clean error response
+#     instead of crashing the server if Chromium can't launch, so a broken
+#     PDF export is an isolated thing to debug later, never a reason the
+#     whole app is unavailable.
 #   - NODE_ENV=production is set below (for the app's own runtime use), but
 #     `npm install` treats that as an implicit `--omit=dev` and silently
 #     skips devDependencies — which is where typescript, esbuild, @types/*,
@@ -42,11 +45,16 @@ services:
     name: botc-host-toll-server
     runtime: node
     plan: free
-    buildCommand: npm install --include=dev && npm run prisma:generate -w server && (npx playwright install chromium || true) && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
+    buildCommand: npm install --include=dev && npm run prisma:generate -w server && npx playwright install chromium && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
     startCommand: npm run start -w server
     envVars:
       - key: NODE_ENV
         value: production
+      # Keeps the Chromium binary Playwright downloads during build inside
+      # the project directory, so it's actually present at runtime — see
+      # the PDF export note above.
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /opt/render/project/.cache/playwright
       # Pasted in during blueprint creation from your Neon project's
       # connection details (pooled connection — the "-pooler" one).
       - key: DATABASE_URL
