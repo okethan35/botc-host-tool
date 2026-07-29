@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { Player } from 'shared';
 import { Button } from '../shared/Button';
+import { Modal } from '../shared/Modal';
 
 interface ConvertPhantomButtonProps {
   player: Player;
@@ -16,6 +18,8 @@ interface ConvertPhantomButtonProps {
  * Now driven by whether a `claimUrl` is cached for this player instead.
  */
 export function ConvertPhantomButton({ player, claimUrl, onConvert }: ConvertPhantomButtonProps) {
+  const [fullScreen, setFullScreen] = useState(false);
+
   if (claimUrl) {
     return (
       <div className="flex flex-col items-center gap-2 rounded-lg border border-ink/30 p-3">
@@ -26,9 +30,26 @@ export function ConvertPhantomButton({ player, claimUrl, onConvert }: ConvertPha
         <a href={claimUrl} target="_blank" rel="noreferrer" className="break-all text-xs text-neutral underline">
           {claimUrl}
         </a>
-        <Button variant="ghost" className="text-xs" onClick={() => onConvert(player.id)}>
-          Generate a new link
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="secondary" className="text-xs" onClick={() => setFullScreen(true)}>
+            Show full-screen to hand over
+          </Button>
+          <Button variant="ghost" className="text-xs" onClick={() => onConvert(player.id)}>
+            Generate a new link
+          </Button>
+        </div>
+
+        {/* Opaque and separate from PlayerEditModal (not nested content) so
+            the role dropdown and other host-only controls behind it are
+            fully hidden, not just dimmed, while this is handed to the player. */}
+        <Modal open={fullScreen} onClose={() => setFullScreen(false)} title={`Claim seat - ${player.displayName}`} opaque>
+          <div className="flex flex-col items-center gap-4 py-2">
+            <QRCodeSVG value={claimUrl} size={260} bgColor="#f4ecd8" fgColor="#2b2013" />
+            <a href={claimUrl} target="_blank" rel="noreferrer" className="break-all text-center text-sm text-neutral underline">
+              {claimUrl}
+            </a>
+          </div>
+        </Modal>
       </div>
     );
   }

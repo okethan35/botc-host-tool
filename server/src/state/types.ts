@@ -21,6 +21,7 @@ export interface RuntimePlayer {
   sessionToken: string;
   seatPosition: number;
   roleId: string | null;
+  believedRoleId: string | null;
   alignment: Alignment | null;
   alive: boolean;
   hostNotes: string;

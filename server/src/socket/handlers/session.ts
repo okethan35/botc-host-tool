@@ -61,9 +61,7 @@ export function registerSessionHandlers(io: TypedServer, socket: TypedSocket): v
       socket.data.playerId = player.id;
       await socket.join(gameRoom(state.game.id));
 
-      const ownRole = player.roleId
-        ? buildOwnRoleReveal(state, player.roleId, player.alignment)
-        : null;
+      const ownRole = player.roleId ? buildOwnRoleReveal(state, player) : null;
       socket.emit(SOCKET_EVENTS.SESSION_RESUMED, {
         role: 'player',
         game: toPublicGame(state),

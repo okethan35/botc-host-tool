@@ -4,14 +4,21 @@ interface ModalProps {
   open: boolean;
   onClose: () => void;
   title?: string;
+  /** Fully opaque backdrop instead of translucent - for content shown to
+   * onlookers (game code, claim QR) where anything bleeding through from
+   * the host's own screen behind it (e.g. roles) would defeat the point. */
+  opaque?: boolean;
   children: ReactNode;
 }
 
-export function Modal({ open, onClose, title, children }: ModalProps) {
+export function Modal({ open, onClose, title, opaque = false, children }: ModalProps) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${opaque ? 'bg-black' : 'bg-black/60'}`}
+      onClick={onClose}
+    >
       <div
         className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl border border-ink/40 bg-paper-panel p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}

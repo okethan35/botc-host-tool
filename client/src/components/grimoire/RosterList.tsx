@@ -21,6 +21,7 @@ export function RosterList({ players, roles, onSelect }: RosterListProps) {
     <ul className="flex flex-col gap-2">
       {sorted.map((player) => {
         const role = player.roleId ? roleById.get(player.roleId) : undefined;
+        const believedRole = player.believedRoleId ? roleById.get(player.believedRoleId) : undefined;
         return (
           <li key={player.id}>
             <button
@@ -37,7 +38,10 @@ export function RosterList({ players, roles, onSelect }: RosterListProps) {
                     {player.isHost ? <span className="ml-1 text-xs text-neutral">(host)</span> : null}
                     {!player.hasDevice ? <span className="ml-1 text-xs text-ink/65">(phantom)</span> : null}
                   </span>
-                  <span className="text-xs text-ink/70">{role?.name ?? 'No role assigned'}</span>
+                  <span className="text-xs text-ink/70">
+                    {role?.name ?? 'No role assigned'}
+                    {believedRole ? ` (believes: ${believedRole.name})` : ''}
+                  </span>
                 </div>
               </div>
               <div className="flex items-center gap-2">

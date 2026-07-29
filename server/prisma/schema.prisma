@@ -78,6 +78,11 @@ model Player {
   seatPosition  Int
   roleId        String?
   role          Role?      @relation(fields: [roleId], references: [id])
+  /// Real role is Drunk; this is the Townsfolk role they've been secretly
+  /// told they are instead. Null for every non-Drunk player. The player is
+  /// only ever shown this role, never the real one - only the host sees both.
+  believedRoleId String?
+  believedRole   Role?      @relation("BelievedRole", fields: [believedRoleId], references: [id])
   alignment     Alignment?
   alive         Boolean    @default(true)
   hostNotes     String     @default("")
@@ -101,6 +106,7 @@ model Role {
   setupEffect      Json?
 
   players            Player[]
+  believedByPlayers  Player[]             @relation("BelievedRole")
   nightOrderProgress NightOrderProgress[]
 
   @@unique([scriptId, name])

@@ -38,6 +38,8 @@ export function PlayerEditModal({
 
   if (!player) return null;
 
+  const believedRole = player.believedRoleId ? roles.find((r) => r.id === player.believedRoleId) : undefined;
+
   return (
     <Modal open={Boolean(player)} onClose={onClose} title={player.displayName}>
       <div className="flex flex-col gap-4">
@@ -70,6 +72,12 @@ export function PlayerEditModal({
               </option>
             ))}
           </select>
+          {believedRole ? (
+            <span className="text-xs text-ink/70">
+              This player has been told they are the <strong>{believedRole.name}</strong> - only you can see that
+              it's actually the Drunk.
+            </span>
+          ) : null}
         </label>
 
         <HostNotesField value={notes} onChange={setNotes} />

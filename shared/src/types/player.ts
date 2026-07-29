@@ -8,6 +8,9 @@ export interface Player {
   hasDevice: boolean;
   seatPosition: number;
   roleId: string | null;
+  /** Set only when roleId is the Drunk - the Townsfolk role this player has been
+   * secretly told they are. Never sent to the player themselves, host-only. */
+  believedRoleId: string | null;
   alignment: Alignment | null;
   alive: boolean;
   hostNotes: string;

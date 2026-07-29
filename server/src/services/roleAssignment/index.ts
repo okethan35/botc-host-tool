@@ -9,7 +9,9 @@ import { validateComposition, validateDrawCount } from './validation';
 import { registerPending } from './pendingChoices';
 import { applyChosenCountDelta, applyFixedCountDelta, checkPrecondition } from './effects';
 import { clamp, drawRandom, groupByTeam, shuffle } from './utils';
+import { pickBelievedRoleForDrunk } from './drunk';
 import { toHostPlayer } from '../publicBoard';
+import { buildOwnRoleReveal } from '../ownRole';
 
 export { RoleAssignmentError } from './validation';
 
@@ -135,40 +137,41 @@ async function finalizeAssignment(
 ): Promise<void> {
   const gameId = state.game.id;
   const shuffledRoles = shuffle(drawnRoles);
+  const inPlayRoleIds = new Set(drawnRoles.map((r) => r.id));
 
   const assignments = players.map((player, i) => {
     const role = shuffledRoles[i]!;
     const alignment: Alignment = role.team === 'minion' || role.team === 'demon' ? 'evil' : 'good';
-    return { player, role, alignment };
+    // The Drunk believes they're a Townsfolk not in play this game - picked
+    // once here rather than left null, so the player is never shown "Drunk".
+    const believedRoleId = role.name === 'Drunk' ? (pickBelievedRoleForDrunk(state, inPlayRoleIds)?.id ?? null) : null;
+    return { player, role, alignment, believedRoleId };
   });
 
   await prisma.$transaction(
-    assignments.map(({ player, role, alignment }) =>
+    assignments.map(({ player, role, alignment, believedRoleId }) =>
       prisma.player.update({
         where: { id: player.id },
-        data: { roleId: role.id, alignment },
+        data: { roleId: role.id, alignment, believedRoleId },
       }),
     ),
   );
 
-  for (const { player, role, alignment } of assignments) {
-    state.players.set(player.id, { ...player, roleId: role.id, alignment });
+  for (const { player, role, alignment, believedRoleId } of assignments) {
+    state.players.set(player.id, { ...player, roleId: role.id, alignment, believedRoleId });
   }
 
   io.to(hostRoom(gameId)).emit(SOCKET_EVENTS.GRIMOIRE_UPDATE, {
     players: [...state.players.values()].map(toHostPlayer),
   });
 
-  for (const { player, role, alignment } of assignments) {
+  for (const { player } of assignments) {
     if (player.socketId) {
-      io.to(player.socketId).emit(SOCKET_EVENTS.PLAYER_ROLE_ASSIGNED, {
-        roleId: role.id,
-        roleName: role.name,
-        team: role.team,
-        abilityText: role.abilityText,
-        faqText: role.faqText,
-        alignment,
-      });
+      // Read back through state.players (not the loop's stale `player`) so
+      // this picks up the believedRoleId just written above.
+      const updated = state.players.get(player.id)!;
+      const reveal = buildOwnRoleReveal(state, updated);
+      if (reveal) io.to(player.socketId).emit(SOCKET_EVENTS.PLAYER_ROLE_ASSIGNED, reveal);
     }
   }
 }

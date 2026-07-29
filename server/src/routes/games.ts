@@ -138,6 +138,7 @@ gamesRouter.post('/games/:code/join', async (req, res) => {
     sessionToken: player.sessionToken,
     seatPosition: player.seatPosition,
     roleId: player.roleId,
+    believedRoleId: player.believedRoleId,
     alignment: player.alignment,
     alive: player.alive,
     hostNotes: player.hostNotes,
