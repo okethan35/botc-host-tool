@@ -16,20 +16,26 @@
 #     long-term." Use Neon's free tier instead (no expiration) and paste its
 #     connection strings in when prompted during blueprint creation.
 #   - PDF export (server/src/services/pdf.ts) launches headless Chromium via
-#     Playwright, which needs a real browser binary + system libraries —
-#     `playwright install --with-deps` below is a best-effort install of
-#     both on Render's native Node build image. Everything else in the app
-#     (hosting, roles, roster, ring, seating, night order, phantom-player
-#     conversion) is fully independent of this and unaffected either way —
-#     if PDF export doesn't work after deploying, it's an isolated feature
-#     to debug/fix later, not a sign anything else is broken.
+#     Playwright, which needs a real browser binary. `playwright install
+#     chromium` below downloads just the binary (no `--with-deps`: that flag
+#     additionally tries to apt-get install OS-level shared libraries via
+#     `su` to root, which Render's build container doesn't grant — it fails
+#     the whole build, not just this step). The `|| true` makes this step
+#     non-fatal on top of that: even if the download itself fails for some
+#     other reason, the rest of the build must still proceed. Everything
+#     else in the app (hosting, roles, roster, ring, seating, night order,
+#     phantom-player conversion) is fully independent of this either way —
+#     the PDF route already returns a clean error response instead of
+#     crashing the server if Chromium can't launch, so a broken PDF export
+#     is an isolated thing to debug later, never a reason the whole app is
+#     unavailable.
 
 services:
   - type: web
     name: botc-host-toll-server
     runtime: node
     plan: free
-    buildCommand: npm install && npx playwright install --with-deps chromium && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
+    buildCommand: npm install && (npx playwright install chromium || true) && npm run build -w server && npm run prisma:migrate:deploy -w server && npm run prisma:seed -w server
     startCommand: npm run start -w server
     envVars:
       - key: NODE_ENV
