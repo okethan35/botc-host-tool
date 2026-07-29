@@ -5,14 +5,14 @@ import type { RuntimeState } from '../state/types';
 
 const SEAT_FOOTPRINT = 108;
 const SEAT_WIDTH = 112;
-const MIN_RADIUS = 150;
-const NOTES_LINES_PER_COLUMN = 12;
+const MIN_RADIUS = 110;
+const NOTES_LINES_PER_COLUMN = 22;
 // Hard cap on the ring's printed footprint so it can never crowd out the
 // notes section or run into the page margins at high player counts. Once the
 // "ideal" (evenly-spaced) circular size would exceed these, the ring is
 // squeezed into an ellipse - rather than staying circular and overflowing.
-const MAX_RING_WIDTH = 620;
-const MAX_RING_HEIGHT = 520;
+const MAX_RING_WIDTH = 480;
+const MAX_RING_HEIGHT = 380;
 // Compressing seat *positions* into the capped ellipse without also shrinking
 // the seat *boxes* causes adjacent boxes to overlap (spacing was only ever
 // sized correctly for the uncompressed circle). boxScale re-derives the same
@@ -135,7 +135,7 @@ function buildHtmlDocument(code: string, ringHtml: string, notesHtml: string): s
     background: #000;
     opacity: 0.4;
   }
-  .notes-column { display: flex; flex-direction: column; gap: 26px; }
+  .notes-column { display: flex; flex-direction: column; gap: 20px; }
   .note-line { border-bottom: 1px solid #000; opacity: 0.4; height: 1px; }
 </style>
 </head>
